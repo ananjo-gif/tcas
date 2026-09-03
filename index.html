@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TCAS Forecast - ศูนย์ประมวลผลข้อมูลการขนส่ง">
+    <title>TCAS Forecast System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .forecast-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .forecast-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .forecast-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .forecast-header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .forecast-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .forecast-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .forecast-card-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .forecast-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .forecast-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .data-table thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .data-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-placeholder {
+            height: 400px;
+            background: linear-gradient(135deg, #f0f4ff, #f9fafb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1rem;
+        }
+
+        .statistics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-box h4 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box p {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-plane"></i> TCAS System
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">หน้าแรก</a></li>
+                    <li><a href="#features" class="nav-link">คุณสมบัติ</a></li>
+                    <li><a href="#data" class="nav-link">ข้อมูล</a></li>
+                    <li><a href="#contact" class="nav-link">ติดต่อ</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section id="home" class="forecast-container">
+                <div class="forecast-header">
+                    <h1>🌐 TCAS Forecast System</h1>
+                    <p>ระบบพยากรณ์การขนส่ง สทร. เชิงกลยุทธ์</p>
+                </div>
+
+                <div class="statistics">
+                    <div class="stat-box">
+                        <h4>150K+</h4>
+                        <p>ข้อมูลที่ประมวลผล</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>95%</h4>
+                        <p>ความแม่นยำ</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>24/7</h4>
+                        <p>ติดตามแบบเรียลไทม์</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>50+</h4>
+                        <p>เส้นทาง</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="forecast-container">
+                <h2 style="text-align: center; font-size: 2.5rem; color: var(--primary-color); margin-bottom: 3rem;">✨ คุณสมบัติเด่น</h2>
+                <div class="forecast-grid">
+                    <div class="forecast-card">
+                        <div class="forecast-card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>วิเคราะห์แนวโน้ม</h3>
+                        <p>ระบบวิเคราะห์ข้อมูลการขนส่งแบบลึก เพื่อให้คุณเข้าใจแนวโน้มและรูปแบบการจราจร</p>
+                    </div>
+
+                    <div class="forecast-card">
+                        <div class="forecast-card-icon">
+                            <i class="fas fa-map-location-dot"></i>
+                        </div>
+                        <h3>ติดตามตำแหน่ง</h3>
+                        <p>ติดตามตำแหน่งของยานพาหนะ ใช้การทำแผนที่ที่ครอบคลุมและการอัปเดตแบบเรียลไทม์</p>
+                    </div>
+
+                    <div class="forecast-card">
+                        <div class="forecast-card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>พยากรณ์เวลา</h3>
+                        <p>ใช้ AI เพื่อพยากรณ์เวลาการขนส่ง และช่วยเพิ่มประสิทธิภาพของการจัดการโลจิสติกส์</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="data" class="forecast-container">
+                <div class="chart-container">
+                    <h2>📊 สถิติการขนส่ง</h2>
+                    <div class="chart-placeholder">
+                        <div style="text-align: center;">
+                            <p>📈 กราฟวิเคราะห์ข้อมูลการขนส่ง</p>
+                            <small>(สามารถเพิ่มกราฟจริงได้เมื่อมีข้อมูล)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h2>📋 ข้อมูลประมวลผลล่าสุด</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-calendar"></i> วันที่</th>
+                                <th><i class="fas fa-car"></i> จำนวนยาน</th>
+                                <th><i class="fas fa-route"></i> เส้นทาง</th>
+                                <th><i class="fas fa-percentage"></i> ความถูกต้อง</th>
+                                <th><i class="fas fa-check"></i> สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>03 กันยายน 2024</td>
+                                <td>1,250</td>
+                                <td>45</td>
+                                <td>95.2%</td>
+                                <td><span style="color: green;">✓ สำเร็จ</span></td>
+                            </tr>
+                            <tr>
+                                <td>02 กันยายน 2024</td>
+                                <td>1,180</td>
+                                <td>43</td>
+                                <td>94.8%</td>
+                                <td><span style="color: green;">✓ สำเร็จ</span></td>
+                            </tr>
+                            <tr>
+                                <td>01 กันยายน 2024</td>
+                                <td>1,320</td>
+                                <td>48</td>
+                                <td>96.1%</td>
+                                <td><span style="color: green;">✓ สำเร็จ</span></td>
+                            </tr>
+                            <tr>
+                                <td>31 สิงหาคม 2024</td>
+                                <td>1,290</td>
+                                <td>46</td>
+                                <td>95.5%</td>
+                                <td><span style="color: green;">✓ สำเร็จ</span></td>
+                            </tr>
+                            <tr>
+                                <td>30 สิงหาคม 2024</td>
+                                <td>1,150</td>
+                                <td>42</td>
+                                <td>94.2%</td>
+                                <td><span style="color: green;">✓ สำเร็จ</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="contact" class="contact" style="margin: 3rem 0; padding: 3rem; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; border-radius: 10px; text-align: center;">
+                <h2>💡 ต้องการข้อมูลเพิ่มเติม?</h2>
+                <p>ติดต่อทีมของเราเพื่อรับการสนับสนุนและสำหรับรายละเอียดเพิ่มเติม</p>
+                <button class="btn btn-primary" onclick="alert('ติดต่อ info@tcas.com')" style="margin-top: 1rem; background: white; color: var(--primary-color); border: none; padding: 0.75rem 2rem; border-radius: 5px; cursor: pointer; font-size: 1rem; font-weight: 600;">ติดต่อเรา</button>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TCAS System</h4>
+                    <p>ระบบพยากรณ์การขนส่ง</p>
+                </div>
+                <div class="footer-section">
+                    <h4>ลิงก์ด่วน</h4>
+                    <ul>
+                        <li><a href="#home">หน้าแรก</a></li>
+                        <li><a href="#features">คุณสมบัติ</a></li>
+                        <li><a href="#data">ข้อมูล</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>ติดตามเรา</h4>
+                    <div class="social-links">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TCAS Forecast System. สงวนลิขสิทธิ์ทั้งหมด</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
